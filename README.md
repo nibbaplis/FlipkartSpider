@@ -1,2 +1,1 @@
-# SmartCampus
-SmartCampus work
+python run.py NUMBER_OF_LAPTOPS PICKLE_DIR
