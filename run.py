@@ -31,20 +31,19 @@ class MySpider(scrapy.Spider):
         laptop_name=response.css('._3wU53n').css('::text').extract()
         laptop_rating=response.css('.hGSR34').css('::text').extract()
         laptop_price=response.css('._2rQ-NK').css('::text').extract()
+        MySpider.counter+=len(laptop_name)
+        if int(MySpider.counter)>int(MySpider.count):
+            MySpider.flag=0
+            for i in range(int(MySpider.count),int(MySpider.counter)):
+                del laptop_name[-1]
+                del laptop_price[-1]
+                del laptop_rating[-1]
         items['laptop_name'] = laptop_name
         items['laptop_price'] = laptop_price
         items['laptop_rating'] = laptop_rating
         
-        MySpider.counter+=len(laptop_name)
-        if int(MySpider.counter)>int(MySpider.count):
-            flag=0
-            for i in range(int(MySpider.count),int(MySpider.counter)):
-                del items['laptop_name'][-1]
-                del items['laptop_price'][-1]
-                del items['laptop_rating'][-1]
-                
         MySpider.laptops.append(items)
-        #yield items            
+                
         next_page='https://www.flipkart.com/search?q=laptop&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=on&as=off&page=' +str(MySpider.page_number)
         if MySpider.page_number<=29 and MySpider.flag==1:
             MySpider.page_number+=1
